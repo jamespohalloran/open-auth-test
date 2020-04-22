@@ -6,20 +6,30 @@ import Head from "next/head";
  */
 import { getGithubPreviewProps, parseJson } from "next-tinacms-github";
 import { GetStaticProps } from "next";
+import { useGithubJsonForm } from "react-tinacms-github";
 
-export default function Home(props) {
-  const data = props.file.data;
+export default function Home({ file }) {
+  const formOptions = {
+    label: "Home Page",
+    fields: [{ name: "title", component: "text" }],
+  };
+
+  // Registers a JSON Tina Form
+  const [data, form] = useGithubJsonForm(file, formOptions);
 
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>{data.title}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
         <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          {/*
+           ** Render the title from `home.json`
+           */}
+          {data.title}
         </h1>
 
         <p className="description">
